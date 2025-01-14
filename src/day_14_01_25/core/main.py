@@ -22,6 +22,7 @@ class Bfs:
         self.visited = [False] * (n + 1)
         self.queue = []
         self.parent_node = []
+        self.table = []
         
     def find_path(self, start, end):
         """
@@ -35,16 +36,24 @@ class Bfs:
         self.queue.append(start)
         self.visited[start] = True
         
+        # save in table to show progress
+        self.table.append([start, self.edges[start], self.queue.copy(), self.visited.copy()])
+        
         while len(self.queue) > 0:
             u = self.queue.pop(0)
+            
+            # Save the state after popping the node
+            self.table.append([u, self.edges[u], self.queue.copy(), self.visited.copy()])
+            
             if u == end:
                 return self.helpper_find_path(start, end)
-            for i in range(len(self.edges[u])):
-                v = self.edges[u][i]
+            
+            for v in self.edges[u]:
                 if not self.visited[v]:
                     self.visited[v] = True
                     self.queue.append(v)
                     self.parent_node.append((u, v))
+        
         return []
     
     def helpper_find_path(self, start, end):
@@ -60,18 +69,6 @@ class Bfs:
                     break
         return path[::-1]
     
-    def print_table(self):
-        """
-            In ra bảng
-        """
-        if self.parent_node is None:
-            print("No path found")
-            return
-        res = []
-        """
-            | point | near | queue | visited |
-        """
-    
     def clear_cache(self):
         """
             clear cache
@@ -80,4 +77,8 @@ class Bfs:
         self.queue = []
         self.parent_node = []
 
-    
+    def table(self):
+        """
+            Trả về bảng trạng thái mỗi bước duyệt
+        """
+        return self.table
