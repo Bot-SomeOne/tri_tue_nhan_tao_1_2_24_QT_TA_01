@@ -37,13 +37,13 @@ class Bfs:
         self.visited[start] = True
         
         # save in table to show progress
-        self.table.append([start, self.edges[start], self.queue.copy(), self.visited.copy()])
+        self.table.append([start, self.edges[start], self.queue.copy(), self.help_visited()])
         
         while len(self.queue) > 0:
             u = self.queue.pop(0)
             
             # Save the state after popping the node
-            self.table.append([u, self.edges[u], self.queue.copy(), self.visited.copy()])
+            self.table.append([u, self.edges[u], self.queue.copy(), self.help_visited()])
             
             if u == end:
                 return self.helpper_find_path(start, end)
@@ -82,3 +82,21 @@ class Bfs:
             Trả về bảng trạng thái mỗi bước duyệt
         """
         return self.table
+    
+    def help_visited(self):
+        """
+            Trả về mảng visited
+        """
+        res = []
+        for i, v in enumerate(self.visited):
+            if v:
+                res.append(i)
+                
+        return res
+    
+    def print_table(self):
+        """
+            In ra bảng trạng thái mỗi bước duyệt
+        """
+        for i in self.table:
+            print(i)
