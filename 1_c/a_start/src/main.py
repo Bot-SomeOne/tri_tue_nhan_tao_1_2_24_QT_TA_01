@@ -35,6 +35,13 @@ class Graph:
         
         return self.graph
     
+    def get_list_trong_so(self):
+        """
+            Get list trong so dinh
+        """
+        
+        return self.trongSoDinh
+    
     def get_edges(self):
         """
             Get edges
@@ -100,13 +107,18 @@ class Data:
     def get_data(self):
         return self.data
     
+    def get_graph(self):
+        return self.data.get_graph()
+    
+    def get_trong_so(self):
+        return self.data.get_list_trong_so()
+    
     def process_create_data(self):
         f = open(self.path_file, "r")
         self.dinh = int(f.readline())
         self.canh = int(f.readline())
         
-        self.data = Graph(self.dinh, self.canh)
-        
+        dataTemp = Graph(self.dinh, self.canh)
         for _ in range(self.canh):
             line = f.readline().strip('\n').split()
             if len(line) >= 4:
@@ -114,8 +126,9 @@ class Data:
                 v = int(line[1])
                 d = int(line[2])
                 w = int(line[3])
-                self.data.add_edge(u, v, d, w)
+                dataTemp.add_edge(u, v, d, w)
         f.close()
+        self.data = dataTemp
 
 
 def main():
@@ -125,7 +138,8 @@ def main():
     pathFile = os.path.join(os.path.dirname(__file__), "data.txt")
     # print(pathFile)
     data = Data(pathFile)
-    print(data.get_data())
+    print(data.get_graph())
+    print(data.get_trong_so())
     
     
 if __name__ == '__main__':
