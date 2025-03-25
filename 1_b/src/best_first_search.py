@@ -25,7 +25,7 @@ class Data:
         if v not in self.data:
             self.data[v] = []
             
-        self.data[u].append((v, w))
+        self.data[u].append((v, w)) # u -> v 
     
     def get_data(self):
         return self.data
