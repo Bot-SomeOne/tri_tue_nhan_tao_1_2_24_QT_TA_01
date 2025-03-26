@@ -134,6 +134,8 @@ class BestFirstSearch:
         # Khởi tạo danh sách kề
         for val in self.input.get_dinh_ke(self.start):
             adj.append((self.input.get_trong_so(val), val))
+            # Lưu lại đỉnh cha
+            self.parent_node[val] = self.start
         # print(adj)
         # Tạo list
         list = [] 
@@ -149,12 +151,13 @@ class BestFirstSearch:
         while node[1] != self.goal:
             if not list:  # Check if the heap is empty
                 raise ValueError("Không có đường dẫn thoả mãn!")
-            min_node = heapq.heappop(list)  # Lấy đỉnh có trọng số nhỏ nhất
-            self.parent_node[min_node[1]] = node[1]
-            node = min_node
+            node = heapq.heappop(list)  # Lấy đỉnh có trọng số nhỏ nhất
             adj = []
             for val in self.input.get_dinh_ke(node[1]):  # Use node[1] to get the current node
                 adj.append((self.input.get_trong_so(val), val))
+                # Lưu lại đỉnh cha
+                if val not in self.parent_node:
+                    self.parent_node[val] = node[1] # Chỉ lưu nếu chưa có 
             # Tạo list
             for i in adj:
                 list.append(i)
