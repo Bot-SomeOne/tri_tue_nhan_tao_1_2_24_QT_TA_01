@@ -81,7 +81,7 @@ class BestFirstSearch:
         for i in adj:
             list.append(i)
         heapq.heapify(list)
-        table.append([node, adj, sorted(list)])
+        table.append([[node[1], node[0]], self.beaty_out(adj), self.beaty_out(sorted(list))])
         
         while node[1] != self.goal:
             if not list: 
@@ -97,9 +97,21 @@ class BestFirstSearch:
             for i in adj:
                 list.append(i)
             heapq.heapify(list)
-            table.append([node, adj, sorted(list)])
+            
+            # table.append([node, adj, sorted(list)])
+            table.append([[node[1], node[0]], self.beaty_out(adj), self.beaty_out(sorted(list))])
             
         self.table = table
+        
+    
+    def beaty_out(self, arr):
+        res = []
+        for node in arr:
+            if type(node) == tuple:
+                res.append((node[1], node[0]))
+            else:
+                res.append(node)
+        return res
     
     def show_table_step(self):
         print("Đỉnh bắt đầu:", self.start)
@@ -175,7 +187,7 @@ def show_data_input(input: Input):
     print("Đỉnh kết thúc:", goal)
 
 def main():
-    pathFile = os.path.join(os.path.dirname(__file__), "data.txt")
+    pathFile = os.path.join(os.path.dirname(__file__), "input.txt")
     input = Input(pathFile)
     input.read_input()
    
@@ -192,5 +204,3 @@ def main():
 if __name__ == "__main__":
     main()
     
-        
-                
